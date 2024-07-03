@@ -5,6 +5,12 @@ The Symptom Checker and Triage System aims to assist users in assessing their sy
 
 Users input their symptoms, and the system analyzes the data to suggest potential diagnoses and recommend appropriate actions (e.g., self-care, urgent care, or emergency room visits).
 
+
+## Contents
+- [Project Implementation Phases](#project-implementation-phases)
+- [Application Implementation phases](#application-implementation-phases)
+- [Credits](#credits)
+
 <hr>
 
 ### Data Sources
@@ -15,12 +21,12 @@ Users input their symptoms, and the system analyzes the data to suggest potentia
 	
 	| Aspect	   	| 	Description                         |
 	|---------------|----------------------------------------|
-	| Availability 	| The ICD-11 API is freely accessible, but it is not open source.  |
+	| Availability 	| ICD-11 API is freely accessible, but it is not open source.  |
 	| Documentation	| [API Documentation](https://icd.who.int/docs/icd-api/APIDoc-Version2/)    |
 	| Reference API | [Swagger API](https://id.who.int/swagger/index.html) |
 	| Examples 		| [ICD API samples - GitHub](https://github.com/icd-api) | 
-	| License      	| The API is available for non-commercial use under specific terms and conditions set by the WHO.      |
-	| Local Deployment	| [Docker container as Windows service](https://icd.who.int/docs/icd-api/ICDAPI-LocalDeployment/)  |
+	| License      	| API is available for non-commercial use under specific terms and conditions set by WHO |
+	| Local Deployment	| [Docker container as Windows service](https://icd.who.int/docs/icd-api/ICDAPI-LocalDeployment/) |
 	| Access 		| Via registration only |
 	|||
 
@@ -29,7 +35,7 @@ Users input their symptoms, and the system analyzes the data to suggest potentia
 
 ### Existing Symptom Checker resources
 - Applications:
-	- [WebMD](https://symptoms.webmd.com/)
+	- [WebMD Symptom Checker](https://symptoms.webmd.com/)
 - API:
 	- [Infermedica Engine API](https://developer.infermedica.com/documentation/engine-api/)
 
@@ -52,7 +58,7 @@ Users input their symptoms, and the system analyzes the data to suggest potentia
 - Implement user authentication (e.g., OAuth, JWT) to secure user data and ensure privacy.
 
 ### 3. Symptom Analysis Logic
-- Develop a symptom-to-diagnosis mapping based on medical knowledge. This can be a predefined set of rules or a machine learning model ( [Optional](#machine-learning-enhancement-optional) )
+- Develop a symptom-to-diagnosis mapping based on medical knowledge. This can be a predefined set of rules or a machine learning model ( [Optional](#machine-learning-enhancement) )
 - When a user submits symptoms, analyze the input against the symptom-to-diagnosis mapping.
 - Rank potential diagnoses based on symptom severity and other relevant factors.
 - Provide a list of likely diagnoses along with additional information (e.g., symptoms associated with each diagnosis).
@@ -63,10 +69,20 @@ Users input their symptoms, and the system analyzes the data to suggest potentia
 	- Urgent care (e.g., visit a nearby clinic).
 	- Emergency room (e.g., severe symptoms, potential life-threatening conditions).
 - Display clear instructions for each recommendation.
-- ( Optional ) Integrating with external APIs (e.g., Google Maps for nearby healthcare facilities).
 
-## Machine Learning Enhancement (Optional)
-- To advance the system, consider incorporating machine learning:
+## User Experience and Ethical Considerations
+- Ensure the system is user-friendly, accessible, and easy to understand.
+- Display disclaimers about the limitations of the system (not a substitute for professional medical advice).
+- Protect user privacy and comply with data protection regulations.
+- [ IF Optional features implemented ] Regularly update the symptom-to-diagnosis mapping and ML model to improve accuracy.
+
+
+### OPTIONAL Features
+1. *External APIs* 
+- Integrate Application with external APIs (e.g., Google Maps for nearby healthcare facilities) for advanced recommendation for treatment at nearby health centers.
+
+2. *Machine Learning Enhancement*
+- To advance the system by incorporating machine learning:
 	- Data Collection: Gather historical symptom data, diagnoses, and outcomes (e.g., recovery, hospitalization).
 	- Feature Engineering: Extract relevant features from symptom descriptions (e.g., keywords, severity).
 	- Model Selection:
@@ -76,31 +92,30 @@ Users input their symptoms, and the system analyzes the data to suggest potentia
 	- Training and Evaluation: Train the model using labeled data and evaluate its performance (precision, recall, F1-score).
 	- Integration: Integrate the ML model into the symptom analysis process.
 
-## User Experience and Ethical Considerations
-- Ensure the system is user-friendly, accessible, and easy to understand.
-- Display disclaimers about the limitations of the system (not a substitute for professional medical advice).
-- Protect user privacy and comply with data protection regulations.
-- Regularly update the symptom-to-diagnosis mapping and ML model to improve accuracy.
+[Back To Contents](#contents)
 
 <br>
 <hr>
 
-# Technical Implementation Phases
+## Application Implementation Phases
 1. **Design**
-	- [ ] Login page
+	- Design inspiration for 'Home' page from [WebMD Symptom Checker](https://symptoms.webmd.com/)
+	- [X] Login page
+	- [X] Home page
+	- [X] Signup page
 	- [ ] User profile page
 	- [ ] Admin page
-	- [ ] Home page
 
-2. **Backend Setup**	
-	- [ ] **Set up MongoDB :** Install MongoDB and define the database schema
-	- [ ] **Set up Express.js :** Create RESTful APIs for handling CRUD operations.
-	- [ ] **Implement Authentication :** Incorporate user authentication and authorization mechanisms.
-
-3. **Frontend Setup**	
+2. **Frontend Setup**
+	- [ ] **Test ICD API :** Generate test output with mock input data (symptoms)	
 	- [ ] **Setup React :** Implement designed webpages using `Vite` as Build Tool
 	- [ ] **Integrate UI Design :** Implement the UI designs and components. 
 	- [ ] **API Integration :** Connect the frontend to the backend APIs using Axios or Fetch.
+
+3. **Backend Setup**	
+	- [ ] **Set up MongoDB :** Install MongoDB and define the database schema
+	- [ ] **Set up Express.js :** Create RESTful APIs for handling CRUD operations.
+	- [ ] **Implement Authentication :** Incorporate user authentication and authorization mechanisms.
 
 4. **Concurrent Development**
 	- [ ] **Concurrently Develop Features :** Work on both frontend and backend simultaneously, ensuring alignment with project requirements. 
