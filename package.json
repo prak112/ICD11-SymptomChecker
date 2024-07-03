@@ -1,0 +1,20 @@
+{
+  "name": "symptom-checker",
+  "version": "1.0.0",
+  "description": "Web application for assessment of users' symptoms and triage diagnosis and recommendations based on ICD-11 data.",
+  "main": "app_prototype.js",
+  "scripts": {
+    "dev": "node --env-file=.env app_prototype.js && node app_prototype.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "symptoms checker",
+    "check symptoms"
+  ],
+  "author": "Prakirth Govardhanam",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemon": "^3.1.4"
+  }
+}
