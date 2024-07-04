@@ -7,9 +7,13 @@ let tokenInfo = {
 
 async function authenticateApiAccess(tokenEndpoint, tokenOptions){
 try {
-        const tokenClient = await fetch(tokenEndpoint, tokenOptions)
-        const data = await tokenClient.json()
-        return fetchToken(data)
+        if (!tokenInfo.accessToken) {
+            const tokenClient = await fetch(tokenEndpoint, tokenOptions)
+            const data = await tokenClient.json()
+            return fetchToken(data)
+        } else {
+            return tokenInfo.accessToken
+        }
     } catch (error) {
         throw new Error('ERROR fetching Token : ', error.message)
     }
@@ -34,7 +38,7 @@ function fetchToken(tokenData) {
             console.log('Token updated - ', localTime);
         }, (tokenInfo.expiresIn - 30) * 1000);
 
-        console.log(`Token generated at ${localTime}\nToken expires in ${tokenInfo.expiresIn} seconds`)
+        console.log(`Token generated at ${localTime}\nToken will be renewed in ${tokenInfo.expiresIn - 30} seconds`)
         return tokenInfo.accessToken
     } catch (error) {
         throw new Error('ERROR fetching Token : ', error.message)
