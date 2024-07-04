@@ -1,15 +1,22 @@
 /**
  * Objective: Prototype local app to access and request ICD API for data on flu symptoms
- * Goal #1: Access ICD API
- * Goal #2: Send request with symptoms and receive data (/icd/entity/search)
- * Goal #3: Deduce data and log text in user-readable format 
+ * GOAL #1: Access ICD API
+ * GOAL #2: Send request with symptoms and receive data 
+    * API Call references
+    * Broader results list - /icd/release/11/{releasId}/{linearizationName}/search
+    * Narrowed down result - /icd/release/11/2024-01/mms/autocode?searchText=sore%20throat&matchThreshold=0.75
+ * GOAL #3: Deduce data and log text in user-readable format
+    * Use 'foundationURI' from  Narrowed down result
+    * API call - /icd/release/11/2024-01/mms/lookup?foundationUri=http%3A%2F%2Fid.who.int%2Ficd%2Fentity%2F633724732
+    * response includes 'browserUrl', 'title', 'definition', 
+    * other possible conditions list - 'exclusion', 'indexTerm'
 **/
 
 // imports
 const middleware = require('./middleware')
 
 // Goal #1 : Setup ICD API access
-// ICD API authentication to OAUTH 2.0 Token Endpoint (token from API for access to make requests)
+// ICD API authentication to OAUTH 2.0 Token Endpoint (token from API for access)
 const tokenEndpoint = 'https://icdaccessmanagement.who.int/connect/token'
 const clientId = process.env.CLIENT_ID
 const clientSecret = process.env.CLIENT_SECRET
@@ -42,6 +49,8 @@ console.log('Options set');
 
 
 // Goal #2: Send request with symptoms and receive data
+// Foundation Model : https://icd.who.int/browse/2024-01/foundation/en#448895267
+
 // access middleware to authenticate access and setup scheduled token update
 const getTokenAndData = async() => {
     const token = await middleware.authenticateApiAccess(tokenEndpoint, tokenOptions)
@@ -49,7 +58,7 @@ const getTokenAndData = async() => {
     console.log('Fetching token...');
     console.log('Token: ', token)
     const requestOptions = {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
             'API-Version': 'v2',
@@ -57,31 +66,87 @@ const getTokenAndData = async() => {
             'Accept': 'application/json'
         }
     }
-    // request ICD11 API - icd/entity/search
-    const baseUrl = 'https://id.who.int/icd/entity/search'
-    const symptom = 'running nose, heavy cough, high fever'
-    const queryParams = {
-        q: symptom,
-        useFlexiSearch: 'true',
-        flatResults: 'true',
-// valid values: "Title", "Synonym", "NarrowerTerm", "FullySpecifiedName", "Definition", "Exclusion" 
-// More than one property could be used with "," as the separator.
-        propertiesToBeSearched: 'Definition',
-        highlightingEnabled: 'true'
+    // search API for symptom
+    const searchUrl = 'https://id.who.int/icd/release/11/2024-01/mms/autocode'
+    const symptom = 'sore throat'
+
+    // Broader results list - /icd/release/11/{releaseId}/{linearizationName}/search
+    // const searchParams = {
+    //     q: symptom,
+    //     useFlexiSearch: 'false',
+    //     flatResults: 'true',
+    //     subtreeFilterUsesFoundationDescendants: 'false',
+    //     includeKeywordResult: 'true',
+    //     medicalCodingMode: 'true',
+    // // valid values: "Title", "Synonym", "NarrowerTerm", "FullySpecifiedName", "Definition", "Exclusion" 
+    // // More than one property could be used with "," as the separator.
+    //     propertiesToBeSearched: 'IndexTerm',
+    //     highlightingEnabled: 'true'
+    // } 
+
+
+    // Narrowed down result - /icd/release/11/2024-01/mms/autocode
+    const searchParams = {
+        searchText: symptom,
+        matchThreshold: 0.75 
+    }
+    
+    // construct query string for URI
+    const searchString = new URLSearchParams(searchParams)
+
+    // setup search request to endpoint
+    const searchEndpoint = `${searchUrl}?${searchString}`
+    const searchResponse = await fetch(searchEndpoint, requestOptions)
+    console.log(`\nStatus ${requestOptions.method} ${searchUrl} :\n${searchResponse.status}`)
+
+// GOAL #3: Extract data and display in user-readable and understandable format
+    // extract data from search results
+    const searchData = await searchResponse.json()
+
+    // Narrowed down result - /icd/release/11/2024-01/mms/autocode
+    console.log(`\nSearched for: ${searchData.searchText}
+    Results : ${searchData.matchingText}
+    ICD code: ${searchData.theCode}
+    Foundation URI: ${searchData.foundationURI}
+    Relevancy Score: ${searchData.matchScore}
+    \n`)
+
+    // lookup foundationURI - /icd/release/11/2024-01/mms/lookup?foundationUri=http%3A%2F%2Fid.who.int%2Ficd%2Fentity%2F633724732
+    const lookupUrl = 'https://id.who.int/icd/release/11/2024-01/mms/lookup'
+    const lookupParams = { 
+        foundationUri: searchData.foundationURI
+    }
+    const lookupString = new URLSearchParams(lookupParams)
+
+    const lookupEndpoint = `${lookupUrl}?${lookupString}`
+    const lookupResponse = await fetch(lookupEndpoint, requestOptions)
+    const lookupData = await lookupResponse.json()
+    
+    // extract 'browserUrl','title','definition','exclusion','indexTerm'
+    console.log(`\nVisit ICD WHO website for more info : ${lookupData.browserUrl}
+    Diagnosed condition : ${lookupData.title["@value"]}
+    General details : ${lookupData.definition["@value"]}
+    \n`)
+    for(term of lookupData.indexTerm){
+        console.log('Possible Conditions : ', term.label["@value"])
+    }
+    for(entity of lookupData.exclusion){
+        console.log('Excluded Conditions : ', entity.label["@value"])
     }
 
-    // construct query string for URI
-    const queryString = new URLSearchParams(queryParams)
-    
-    // setup endpoint with baseUrl and queryString
-    const requestEndpoint = `${baseUrl}?${queryString}`
-
-    const response = await fetch(requestEndpoint, requestOptions)
-    console.log('Status /icd/entity/search : \n', response.status)
-
-    const data = await response.json()
-    console.log(`${requestOptions.method} data /icd/entity/search : \n ${data.destinationEntities.length}`)
-    // check 'destinationEntites' length
-    // check 'matchingPVs[0].score' > -0.02
+    // Broader results list- /icd/release/11/{releasId}/{linearizationName}/search
+    // for(word of searchData.words){
+    //     console.log('Possible Condition:', word.label )
+    // }
+    // for(entity of searchData.destinationEntities){
+    //     if(entity.score > 0.75){
+    //         console.log(`Title: ${entity.title}\n
+    //             ICD code: ${entity.theCode}\n
+    //             Score: ${entity.score}`)
+    //     }
+    // }
+    // check 'words', 'destinationEntities'
+    // 'destinationEntities'-'title', 'theCode', 'score' 
+    // 'destinationEntities'-'matchingPVs' sometimes have multiple items
 }
 getTokenAndData()
