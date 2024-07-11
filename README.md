@@ -6,10 +6,11 @@
     - [Prototype](/app_prototype.js)
     - [Workflow](/docs/PROCESS_FLOWS.md)
 
-- This repository will host the deployed version of the final build from the Frontend and Backend repositories
-    - Frontend repository (*...coming soon...*) 
-    - Backend repository (*...coming soon...*) 
-    - **DEMO** - ICD11 Symptom Checker (*...coming soon...*) 
+- This repository will host the deployed version of the final build from the Frontend and Backend repositories.
+- Check the repositores belowfor setup instructions :
+    - [Frontend repository](https://github.com/prak112/Symptom-Checker-frontend)
+    - [Backend repository](https://github.com/prak112/Symptom-Checker-backend) 
+- **DEMO** - ICD11 Symptom Checker (*...coming soon...*) 
 
 <br>
 <hr>
