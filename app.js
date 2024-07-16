@@ -123,15 +123,25 @@ const getTokenAndData = async() => {
     const lookupData = await lookupResponse.json()
     
     // extract 'browserUrl','title','definition','exclusion','indexTerm'
-    console.log(`\nVisit ICD WHO website for more info : ${lookupData.browserUrl}
-    Diagnosed condition : ${lookupData.title["@value"]}
-    General details : ${lookupData.definition["@value"]}
-    \n`)
-    for(term of lookupData.indexTerm){
-        console.log('Possible Conditions : ', term.label["@value"])
+    const diagnosisData = {
+        browserUrl: lookupData.browserUrl,
+        diagnosedCondition: lookupData.title["@value"],
+        generalDetails: lookupData.definition["@value"],
+        possibleConditions: lookupData.indexTerm.map(term => term.label["@value"]),
+        excludedConditions: lookupData.exclusion.map(entity => entity.label["@value"])
+    };
+
+    console.log(`\nVisit ICD WHO website for more info : ${diagnosisData.browserUrl}
+    Diagnosed condition : ${diagnosisData.diagnosedCondition}
+    General details : ${diagnosisData.generalDetails}
+    \n`);
+
+    for (let term of diagnosisData.possibleConditions) {
+        console.log('Possible Conditions : ', term);
     }
-    for(entity of lookupData.exclusion){
-        console.log('Excluded Conditions : ', entity.label["@value"])
+
+    for (let entity of diagnosisData.excludedConditions) {
+        console.log('Excluded Conditions : ', entity);
     }
 
     // Broader results list- /icd/release/11/{releasId}/{linearizationName}/search
