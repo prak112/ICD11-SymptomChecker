@@ -2,9 +2,9 @@
   "name": "symptom-checker",
   "version": "1.0.0",
   "description": "Web application for assessment of users' symptoms and triage diagnosis and recommendations based on ICD-11 data.",
-  "main": "app_prototype.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "node --env-file=.env app_prototype.js && node app_prototype.js",
+    "dev": "node --env-file=.env app.js && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
