@@ -3,7 +3,7 @@
     - Web application for assessment of users' symptoms and triage diagnosis and recommendations based on ICD-11 data.
 
 - This repository consists of Project Prototype to understand ICD 11 API and generate a workflow for addressing the user input efficiently.
-    - [Prototype](/app_prototype.js)
+    - [Prototype](/app.js)
     - [Workflow](/docs/PROCESS_FLOWS.md)
 
 - This repository will host the deployed version of the final build from the Frontend and Backend repositories.
@@ -13,7 +13,7 @@
 <hr>
 
 # Setup
-- Check the repositores belowfor setup instructions :
+- Check the repositories below for setup instructions :
     - [Frontend repository](https://github.com/prak112/Symptom-Checker-frontend)
     - [Backend repository](https://github.com/prak112/Symptom-Checker-backend) 
 
