@@ -8,7 +8,7 @@
     - [Workflow Diagrams](/docs/PROCESS_FLOWS.md)
 
 - This repository will host the deployed version of the final build from the Frontend and Backend repositories.
-- **DEMO** - ICD11 Symptom Checker (*...coming soon...*) 
+    - **DEMO** - ICD11 Symptom Checker (*...coming soon...*) 
 
 ## Progress
 - [Feature Tracker](https://github.com/users/prak112/projects/2)
