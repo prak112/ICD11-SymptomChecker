@@ -27,8 +27,17 @@ sequenceDiagram
     APP->>+USER: Display detailed information - symptoms, treatment options, related conditions.
 ```
 
-<br>
 <hr>
+<br>
+
+
+# Frontend-Backend Interaction
+
+
+
+<hr>
+<br>
+
 
 # ICD API Requests Flow
 ```mermaid
@@ -47,5 +56,5 @@ sequenceDiagram
     BACKEND->>-FRONTEND: Display-process extracted data
 ```
 
-<br>
 <hr>
+<br>
