@@ -18,8 +18,10 @@
 
 # Setup
 - Check the repositories below for setup instructions :
-    - [Frontend repository](https://github.com/prak112/Symptom-Checker-frontend)
-    - [Backend repository](https://github.com/prak112/Symptom-Checker-backend) 
+    - [Web App - React & Material UI Frontend](https://github.com/prak112/Symptom-Checker-frontend)
+    - [Mobile App - React Native Frontend](https://github.com/prak112/SymptomChecker-frontend-mobile)
+    - [Web and Mobile App - NodeJS & Express Backend ](https://github.com/prak112/Symptom-Checker-backend)
+    - Web and Mobile App - MongoDB Database (Check [MongoDB Atlas](https://www.mongodb.com/atlas))
 
 <hr>
 <br>
