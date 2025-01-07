@@ -18,10 +18,11 @@
 
 # Setup
 - Check the repositories below for setup instructions :
-    - [Web App - React & Material UI Frontend](https://github.com/prak112/Symptom-Checker-frontend)
-    - [Mobile App - React Native Frontend](https://github.com/prak112/SymptomChecker-frontend-mobile)
-    - [Web and Mobile App - NodeJS & Express Backend ](https://github.com/prak112/Symptom-Checker-backend)
-    - Web and Mobile App - MongoDB Database (Check [MongoDB Atlas](https://www.mongodb.com/atlas))
+    - [Web Client - React, Material UI](https://github.com/prak112/Symptom-Checker-frontend)
+    - [Mobile Client - React Native with Expo](https://github.com/prak112/SymptomChecker-frontend-mobile)
+    - [Shared Admin Client - .NET Blazor Server](https://github.com/prak112/SymptomChecker_Admin) 
+    - [Shared Backend - NodeJS, Express](https://github.com/prak112/Symptom-Checker-backend)
+    - Shared Database - MongoDB Atlas (Check MongoDB page for [setup](https://www.mongodb.com/atlas))
 
 <hr>
 <br>
